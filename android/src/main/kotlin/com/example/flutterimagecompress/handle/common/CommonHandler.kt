@@ -1,8 +1,8 @@
 package com.example.flutterimagecompress.handle.common
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
+import android.text.TextPaint
 import com.example.flutterimagecompress.exif.ExifKeeper
 import com.example.flutterimagecompress.ext.calcScale
 import com.example.flutterimagecompress.ext.compress
@@ -11,6 +11,7 @@ import com.example.flutterimagecompress.handle.FormatHandler
 import com.example.flutterimagecompress.logger.log
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
+
 
 class CommonHandler(override val type: Int) : FormatHandler {
 
@@ -93,11 +94,27 @@ class CommonHandler(override val type: Int) : FormatHandler {
       options.inJustDecodeBounds = false
       options.inPreferredConfig = Bitmap.Config.RGB_565
       options.inSampleSize = inSampleSize
+      options.inMutable=true
       if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
         @Suppress("DEPRECATION")
         options.inDither = true
       }
+
       val bitmap = BitmapFactory.decodeFile(path, options)
+
+      val canvas = Canvas(bitmap)
+      val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
+      textPaint.style = Paint.Style.FILL
+      textPaint.color = Color.YELLOW
+      textPaint.textSize = 300f
+
+      //Calculate the positions
+      val xPos = (canvas.width / 2 - 2)//-2 is for regulating the x position offset
+
+      //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
+      val yPos = - (textPaint.descent() + textPaint.ascent())
+
+      canvas.drawText("Hello", 0f, yPos, textPaint)
 
       val array = bitmap.compress(minWidth, minHeight, quality, rotate, type)
 
