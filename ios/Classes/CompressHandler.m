@@ -14,20 +14,28 @@
 + (NSData *)compressWithData:(NSData *)data minWidth:(int)minWidth minHeight:(int)minHeight quality:(int)quality
                       rotate:(int)rotate format:(int)format {
     UIImage *img = [[UIImage alloc] initWithData:data];
-    return [CompressHandler compressWithUIImage:img minWidth:minWidth minHeight:minHeight quality:quality rotate:rotate format:format];
+    return [CompressHandler compressWithUIImage:img minWidth:minWidth minHeight:minHeight quality:quality rotate:rotate format:format textOptions:nil];
 }
 
 + (NSData *)compressWithUIImage:(UIImage *)image minWidth:(int)minWidth minHeight:(int)minHeight quality:(int)quality
-                         rotate:(int)rotate format:(int)format {
+                         rotate:(int)rotate format:(int)format textOptions:(NSDictionary<NSString*, NSString*> *)txtOptions{
     if([FlutterImageCompressPlugin showLog]){
         NSLog(@"width = %.0f",[image size].width);
         NSLog(@"height = %.0f",[image size].height);
         NSLog(@"minWidth = %d",minWidth);
         NSLog(@"minHeight = %d",minHeight);
         NSLog(@"format = %d", format);
+    
+}
+    UIImage *img=image;
+    if(txtOptions){
+        NSString *text = [txtOptions objectForKey:@"text"];
+        NSString *size = [txtOptions objectForKey:@"size"];
+        NSString *color = [txtOptions objectForKey:@"color"];
+        
+        if(text != (NSString*) [NSNull null] || text.length != 0)
+        img = [CompressHandler drawText:text inImage:image color:color size:size];
     }
-    UIImage *img = [CompressHandler drawText:@"Some text"
-                                inImage:image];
     
     img = [img scaleWithMinWidth:minWidth minHeight:minHeight];
     if(rotate % 360 != 0){
@@ -38,17 +46,26 @@
     return resultData;
 }
 
-+(UIImage*) drawText:(NSString*) text inImage:(UIImage*) image {
++(UIImage*) drawText:(NSString*) text inImage:(UIImage*) image color:(NSString*) textColor  size:(NSString*) textSize{
 
     UIGraphicsBeginImageContext(image.size);
 
     // Draw the image into the context
     [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
 
+    
+    UIColor *color = [UIColor yellowColor];
+    if(textColor != (NSString*) [NSNull null] || textColor.length != 0)
+        color = [self colorWithHexString:textColor alpha:1];
+    
+    int size =20;
+    if(textSize != (NSString*) [NSNull null] || textSize.length != 0)
+        size=[textSize intValue];
+    
     // Position the date in the bottom right
-    NSDictionary* attributes = @{NSFontAttributeName :[UIFont boldSystemFontOfSize:200],
+    NSDictionary* attributes = @{NSFontAttributeName :[UIFont boldSystemFontOfSize:size],
                                      NSStrokeColorAttributeName : [UIColor blackColor],
-                                     NSForegroundColorAttributeName : [UIColor yellowColor],
+                                     NSForegroundColorAttributeName :color,
                                      NSStrokeWidthAttributeName : @-2.0};
 
     const CGFloat dateWidth = [text sizeWithAttributes:attributes].width;
@@ -65,6 +82,14 @@
     
     return newImage;
 
+}
+
++ (UIColor *)colorWithHexString:(NSString *)str_HEX  alpha:(CGFloat)alpha_range{
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+    sscanf([str_HEX UTF8String], "#%02X%02X%02X", &red, &green, &blue);
+    return  [UIColor colorWithRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:alpha_range];
 }
 
 
