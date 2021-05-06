@@ -26,14 +26,45 @@
         NSLog(@"minHeight = %d",minHeight);
         NSLog(@"format = %d", format);
     }
-
-    image = [image scaleWithMinWidth:minWidth minHeight:minHeight];
+    UIImage *img = [CompressHandler drawText:@"Some text"
+                                inImage:image];
+    
+    img = [img scaleWithMinWidth:minWidth minHeight:minHeight];
     if(rotate % 360 != 0){
-        image = [image rotate: rotate];
+        img = [img rotate: rotate];
     }
-    NSData *resultData = [self compressDataWithImage:image quality:quality format:format];
+    NSData *resultData = [self compressDataWithImage:img quality:quality format:format];
 
     return resultData;
+}
+
++(UIImage*) drawText:(NSString*) text inImage:(UIImage*) image {
+
+    UIGraphicsBeginImageContext(image.size);
+
+    // Draw the image into the context
+    [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
+
+    // Position the date in the bottom right
+    NSDictionary* attributes = @{NSFontAttributeName :[UIFont boldSystemFontOfSize:200],
+                                     NSStrokeColorAttributeName : [UIColor blackColor],
+                                     NSForegroundColorAttributeName : [UIColor yellowColor],
+                                     NSStrokeWidthAttributeName : @-2.0};
+
+    const CGFloat dateWidth = [text sizeWithAttributes:attributes].width;
+    const CGFloat dateHeight = [text sizeWithAttributes:attributes].height;
+    const CGFloat datePadding = 25;
+
+    [text drawAtPoint:CGPointMake(image.size.width - dateWidth - datePadding, image.size.height - dateHeight - datePadding)
+             withAttributes:attributes];
+
+
+    // Get the final image
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+
 }
 
 
