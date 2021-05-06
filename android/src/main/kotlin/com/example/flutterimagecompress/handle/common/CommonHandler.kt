@@ -87,7 +87,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
   }
 
 
-  override fun handleFile(context: Context, path: String, outputStream: OutputStream, minWidth: Int, minHeight: Int, quality: Int, rotate: Int, keepExif: Boolean, inSampleSize: Int,numberOfRetries:Int) {
+  override fun handleFile(context: Context, path: String, outputStream: OutputStream, minWidth: Int, minHeight: Int, quality: Int, rotate: Int, keepExif: Boolean, inSampleSize: Int,numberOfRetries:Int, textOptions: HashMap<String, String>) {
     try{
       if(numberOfRetries <= 0)return;
       val options = BitmapFactory.Options()
@@ -102,19 +102,24 @@ class CommonHandler(override val type: Int) : FormatHandler {
 
       val bitmap = BitmapFactory.decodeFile(path, options)
 
-      val canvas = Canvas(bitmap)
-      val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
-      textPaint.style = Paint.Style.FILL
-      textPaint.color = Color.YELLOW
-      textPaint.textSize = 300f
+      val text: String? = textOptions["text"]
+      val color: String? = textOptions["color"]
+      val size: String? = textOptions["size"]
+      if (!text.isNullOrEmpty()) {
+        val canvas = Canvas(bitmap)
+        val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
+        textPaint.style = Paint.Style.FILL
+        textPaint.color = if (!color.isNullOrEmpty()) Color.parseColor(color) else Color.YELLOW
+        textPaint.textSize =  if (!size.isNullOrEmpty()) size.toFloat() else 300f
 
-      //Calculate the positions
-      val xPos = (canvas.width / 2 - 2)//-2 is for regulating the x position offset
+        //Calculate the positions
+        val xPos = (canvas.width / 2 - 2)//-2 is for regulating the x position offset
 
-      //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
-      val yPos = - (textPaint.descent() + textPaint.ascent())
+        //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
+        val yPos = - (textPaint.descent() + textPaint.ascent())
 
-      canvas.drawText("Hello", 0f, yPos, textPaint)
+        canvas.drawText(text, 0f, yPos, textPaint)
+      }
 
       val array = bitmap.compress(minWidth, minHeight, quality, rotate, type)
 
@@ -131,7 +136,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
       }
     }catch (e:OutOfMemoryError){//handling out of memory error and increase samples size
       System.gc();
-      handleFile(context, path, outputStream, minWidth, minHeight, quality, rotate, keepExif, inSampleSize *2,numberOfRetries-1);
+      handleFile(context, path, outputStream, minWidth, minHeight, quality, rotate, keepExif, inSampleSize *2,numberOfRetries-1,textOptions);
     }
   }
 }

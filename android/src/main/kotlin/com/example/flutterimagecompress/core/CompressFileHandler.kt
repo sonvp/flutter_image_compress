@@ -26,7 +26,8 @@ class CompressFileHandler(private val call: MethodCall, result: MethodChannel.Re
       val keepExif = args[7] as Boolean
       val inSampleSize = args[8] as Int
       val numberOfRetries = args[9] as Int
-
+      val options  = args[10] as HashMap<String , String >
+      
       val formatHandler = FormatRegister.findFormat(format)
 
       if (formatHandler == null) {
@@ -51,7 +52,7 @@ class CompressFileHandler(private val call: MethodCall, result: MethodChannel.Re
       val targetRotate = rotate + exifRotate
       val outputStream = ByteArrayOutputStream()
       try {
-        formatHandler.handleFile(context, filePath, outputStream, minWidth, minHeight, quality, targetRotate, keepExif, inSampleSize,numberOfRetries)
+        formatHandler.handleFile(context, filePath, outputStream, minWidth, minHeight, quality, targetRotate, keepExif, inSampleSize,numberOfRetries,options)
         reply(outputStream.toByteArray())
       } catch (e: Exception) {
         if (FlutterImageCompressPlugin.showLog) e.printStackTrace()
@@ -72,6 +73,8 @@ class CompressFileHandler(private val call: MethodCall, result: MethodChannel.Re
       val targetPath = args[4] as String
       val rotate = args[5] as Int
       val autoCorrectionAngle = args[6] as Boolean
+      val options  = args[9] as HashMap<String , String >
+
       val exifRotate =
               if (autoCorrectionAngle) {
                 val bytes = File(file).readBytes()
@@ -104,7 +107,7 @@ class CompressFileHandler(private val call: MethodCall, result: MethodChannel.Re
       var outputStream: OutputStream? = null
       try {
         outputStream = File(targetPath).outputStream()
-        formatHandler.handleFile(context, file, outputStream, minWidth, minHeight, quality, targetRotate, keepExif, inSampleSize,numberOfRetries)
+        formatHandler.handleFile(context, file, outputStream, minWidth, minHeight, quality, targetRotate, keepExif, inSampleSize,numberOfRetries,options)
         reply(targetPath)
       } catch (e: Exception) {
         if (FlutterImageCompressPlugin.showLog) e.printStackTrace()

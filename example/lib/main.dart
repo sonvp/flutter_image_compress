@@ -201,6 +201,7 @@ class _MyAppState extends State<MyApp> {
       minHeight: 1500,
       quality: 94,
       rotate: 180,
+      textOptions: TextOptions(text: "5/6/2021",color: "#F26F23",size: 500,)
     );
     print(file.lengthSync());
     print(result?.length);

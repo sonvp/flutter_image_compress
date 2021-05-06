@@ -4,11 +4,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/src/text_options.dart';
 
 import 'src/compress_format.dart';
 import 'src/validator.dart';
 
 export 'src/compress_format.dart';
+export 'src/text_options.dart';
 
 /// Image Compress
 ///
@@ -95,7 +97,7 @@ class FlutterImageCompress {
     bool autoCorrectionAngle = true,
     CompressFormat format = CompressFormat.jpeg,
     bool keepExif = false,
-    int numberOfRetries = 5,
+    int numberOfRetries = 5, TextOptions textOptions = const TextOptions(),
   }) async {
     if (numberOfRetries <= 0) {
       throw "numberOfRetries can't be null or less than 0";
@@ -119,7 +121,8 @@ class FlutterImageCompress {
       _convertTypeToInt(format),
       keepExif,
       inSampleSize,
-      numberOfRetries
+      numberOfRetries,
+      textOptions.toJson()
     ]);
     return result;
   }
