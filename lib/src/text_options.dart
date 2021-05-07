@@ -1,7 +1,7 @@
 class TextOptions {
-  final String? text;
-  final String? color;
-  final int ? size;
+  final String text;
+  final String color;
+  final int size;
 
   const TextOptions({
     this.text,

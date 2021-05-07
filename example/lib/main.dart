@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
     print("after = ${result.length}");
   }
 
-  ImageProvider? provider;
+  ImageProvider provider;
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +193,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {});
   }
 
-  Future<Uint8List?> testCompressFile(File file) async {
+  Future<Uint8List> testCompressFile(File file) async {
     print("testCompressFile");
     final result = await FlutterImageCompress.compressWithFile(
       file.absolute.path,
@@ -208,7 +208,7 @@ class _MyAppState extends State<MyApp> {
     return result;
   }
 
-  Future<File?> testCompressAndGetFile(File file, String targetPath) async {
+  Future<File> testCompressAndGetFile(File file, String targetPath) async {
     print("testCompressAndGetFile");
     final result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
@@ -400,10 +400,10 @@ Future<Uint8List> getAssetImageUint8List(String key) async {
 }
 
 double calcScale({
-  required double srcWidth,
-  required double srcHeight,
-  required double minWidth,
-  required double minHeight,
+   double srcWidth,
+   double srcHeight,
+   double minWidth,
+   double minHeight,
 }) {
   final scaleW = srcWidth / minWidth;
   final scaleH = srcHeight / minHeight;

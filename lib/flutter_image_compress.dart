@@ -87,7 +87,7 @@ class FlutterImageCompress {
   }
 
   /// Compress file of [path] to [Uint8List].
-  static Future<Uint8List?> compressWithFile(
+  static Future<Uint8List> compressWithFile(
     String path, {
     int minWidth = 1920,
     int minHeight = 1080,
@@ -128,7 +128,7 @@ class FlutterImageCompress {
   }
 
   /// From [path] to [targetPath]
-  static Future<File?> compressAndGetFile(
+  static Future<File> compressAndGetFile(
     String path,
     String targetPath, {
     int minWidth = 1920,
@@ -157,7 +157,7 @@ class FlutterImageCompress {
       return null;
     }
 
-    final String? result =
+    final String result =
         await _channel.invokeMethod("compressWithFileAndGetFile", [
       path,
       minWidth,
@@ -180,7 +180,7 @@ class FlutterImageCompress {
   }
 
   /// From [asset] to [Uint8List]
-  static Future<Uint8List?> compressAssetImage(
+  static Future<Uint8List> compressAssetImage(
     String assetName, {
     int minWidth = 1920,
     int minHeight = 1080,
