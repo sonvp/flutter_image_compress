@@ -10,7 +10,7 @@
                       rotate:(int)rotate format:(int)format;
 
 + (NSData *)compressWithUIImage:(UIImage *)image minWidth:(int)minWidth minHeight:(int)minHeight quality:(int)quality
-                         rotate:(int)rotate format:(int)format;
+                         rotate:(int)rotate format:(int)format textOptions:(NSDictionary<NSString*, NSString*> *)txtOptions;
 
 + (NSData *)compressDataWithUIImage:(UIImage *)image minWidth:(int)minWidth minHeight:(int)minHeight
                             quality:(int)quality rotate:(int)rotate format:(int)format;
