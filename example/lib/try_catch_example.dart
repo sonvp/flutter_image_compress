@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_compress_image/flutter_image_compress.dart';
 
 class TryCatchExample {
   Future<List<int>> compressAndTryCatch(String path) async {

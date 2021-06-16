@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_image_compress/src/text_options.dart';
+import 'package:flutter_compress_image/src/text_options.dart';
 
 import 'src/compress_format.dart';
 import 'src/validator.dart';

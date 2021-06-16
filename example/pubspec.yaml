@@ -21,7 +21,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
 
-  flutter_image_compress:
+  flutter_compress_image:
     path: ../
 
   path_provider: ^1.6.28

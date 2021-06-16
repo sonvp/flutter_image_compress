@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_compress_image/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'const/resource.dart';
