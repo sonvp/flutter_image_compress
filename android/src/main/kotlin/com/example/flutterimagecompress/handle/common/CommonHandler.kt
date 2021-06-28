@@ -100,13 +100,17 @@ class CommonHandler(override val type: Int) : FormatHandler {
         options.inDither = true
       }
 
+
+
       val bitmap = BitmapFactory.decodeFile(path, options)
 
       val text: String? = textOptions["text"]
       val color: String? = textOptions["color"]
       val size: String? = textOptions["size"]
       if (!text.isNullOrEmpty()) {
+        val rotate = ExifKeeper(path).cameraPhotoOrientation
         val canvas = Canvas(bitmap)
+        canvas.rotate(-rotate)
         val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
         textPaint.style = Paint.Style.FILL
         textPaint.color = if (!color.isNullOrEmpty()) Color.parseColor(color) else Color.YELLOW
@@ -118,7 +122,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
         //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
         val yPos = - (textPaint.descent() + textPaint.ascent())
 
-        canvas.drawText(text, 0f, yPos, textPaint)
+        canvas.drawText(text, -canvas.height.toFloat(), yPos, textPaint)
       }
 
       val array = bitmap.compress(minWidth, minHeight, quality, rotate, type)

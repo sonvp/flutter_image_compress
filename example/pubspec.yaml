@@ -25,6 +25,7 @@ dependencies:
     path: ../
 
   path_provider: ^1.6.28
+  flutter_picker_image: ^0.0.1
 
 dev_dependencies:
   flutter_test:

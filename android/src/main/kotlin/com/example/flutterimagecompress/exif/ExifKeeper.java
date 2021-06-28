@@ -2,6 +2,7 @@ package com.example.flutterimagecompress.exif;
 /// create 2019-07-02 by cai
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
@@ -127,5 +128,29 @@ public class ExifKeeper {
       return;
     }
 
+  }
+
+  public float getCameraPhotoOrientation() {
+    int rotate = 0;
+    try {
+      int orientation = oldExif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+      switch (orientation) {
+        case ExifInterface.ORIENTATION_ROTATE_270:
+          rotate = 270;
+          break;
+        case ExifInterface.ORIENTATION_ROTATE_180:
+          rotate = 180;
+          break;
+        case ExifInterface.ORIENTATION_ROTATE_90:
+          rotate = 90;
+          break;
+      }
+
+      Log.i("RotateImage", "Exif orientation: " + orientation);
+      Log.i("RotateImage", "Rotate value: " + rotate);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return rotate;
   }
 }

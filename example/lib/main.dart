@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_compress_image/flutter_image_compress.dart';
+import 'package:flutter_picker_image/image_picker.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'const/resource.dart';
@@ -66,6 +67,10 @@ class _MyAppState extends State<MyApp> {
               aspectRatio: 1 / 1,
             ),
             TextButton(
+              child: Text('Picker Image Camera'),
+              onPressed: _testCompressFile1,
+            ),
+            TextButton(
               child: Text('CompressFile and rotate 180'),
               onPressed: _testCompressFile,
             ),
@@ -122,6 +127,30 @@ class _MyAppState extends State<MyApp> {
 
   Future<Directory> getTemporaryDirectory() async {
     return Directory.systemTemp;
+  }
+
+  void _testCompressFile1() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(maxHeight: 1920,maxWidth: 1080 ,
+        source: ImageSource.camera, imageQuality: 90);
+    if (pickedFile != null) {
+      File _image = File(pickedFile.path,);
+      print(' _image.path ${_image.path}');
+      DateTime dateTimeCreatedAt = DateTime.now();
+      Uint8List result1 = await FlutterImageCompress.compressWithFile(
+          _image.absolute.path,
+
+          // inSampleSize: 2,
+          quality: 78,
+          textOptions: TextOptions(text: "5/6/2021",color: "#F26F23",size: 100,)
+      );
+
+      if (result1 == null) return;
+
+      ImageProvider provider = MemoryImage(result1);
+      this.provider = provider;
+      setState(() {});
+    }
   }
 
   void _testCompressFile() async {
