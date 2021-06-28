@@ -122,7 +122,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
         //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
         val yPos = - (textPaint.descent() + textPaint.ascent())
 
-        canvas.drawText(text, -canvas.height.toFloat(), yPos, textPaint)
+        canvas.drawText(text, xPos(canvas,rotate), yPos(canvas,rotate, textPaint), textPaint)
       }
 
       val array = bitmap.compress(minWidth, minHeight, quality, rotate, type)
@@ -141,6 +141,26 @@ class CommonHandler(override val type: Int) : FormatHandler {
     }catch (e:OutOfMemoryError){//handling out of memory error and increase samples size
       System.gc();
       handleFile(context, path, outputStream, minWidth, minHeight, quality, rotate, keepExif, inSampleSize *2,numberOfRetries-1,textOptions);
+    }
+  }
+
+  private fun xPos(canvas: Canvas, rotate: Float): Float {
+    return when (rotate) {
+      90.0f -> -canvas.height.toFloat()
+      180.0f -> -canvas.width.toFloat()
+      else -> { // Note the block
+        0.0f;
+      }
+    }
+  }
+
+  private fun yPos(canvas: Canvas, rotate: Float, textPaint:TextPaint): Float {
+    return when (rotate) {
+      180.0f -> -canvas.height.toFloat() - (textPaint.descent() + textPaint.ascent())
+      270.0f -> -canvas.width.toFloat() - (textPaint.descent() + textPaint.ascent())
+      else -> { // Note the block
+        - (textPaint.descent() + textPaint.ascent())
+      }
     }
   }
 }
