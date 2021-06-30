@@ -170,7 +170,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
 //        canvas.width.toFloat()
 //        - (textPaint.descent() + textPaint.ascent())
         val length = (canvas.width.toFloat() - (- (textPaint.descent() + textPaint.ascent()))) / 2
-        (((LENGTH -(LENGTH + y - 1)) * length) + (- (textPaint.descent() + textPaint.ascent())))
+        ((((LENGTH + y - 1)) * length) + (- (textPaint.descent() + textPaint.ascent())))
       }
     }
   }
