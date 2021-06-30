@@ -87,7 +87,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
   }
 
 
-  override fun handleFile(context: Context, path: String, outputStream: OutputStream, minWidth: Int, minHeight: Int, quality: Int, rotate: Int, keepExif: Boolean, inSampleSize: Int,numberOfRetries:Int, textOptions: HashMap<String, String>) {
+  override fun handleFile(context: Context, path: String, outputStream: OutputStream, minWidth: Int, minHeight: Int, quality: Int, rotate: Int, keepExif: Boolean, inSampleSize: Int,numberOfRetries:Int, textOptions: HashMap<*, *>) {
     try{
       if(numberOfRetries <= 0)return;
       val options = BitmapFactory.Options()
@@ -104,25 +104,28 @@ class CommonHandler(override val type: Int) : FormatHandler {
 
       val bitmap = BitmapFactory.decodeFile(path, options)
 
-      val text: String? = textOptions["text"]
-      val color: String? = textOptions["color"]
-      val size: String? = textOptions["size"]
+      val text: String? = textOptions["text"] as String?
+      val color: String? = textOptions["color"] as String?
+      val size: String? = textOptions["size"] as String?
+      val alignment: HashMap<*, *>? = textOptions["alignment"] as HashMap<*, *>?
+      val x: Double = alignment?.get("x") as Double? ?: (-1).toDouble()
+      val y: Double = alignment?.get("y") as Double? ?: (-1).toDouble()
+
       if (!text.isNullOrEmpty()) {
         val rotate = ExifKeeper(path).cameraPhotoOrientation
         val canvas = Canvas(bitmap)
         canvas.rotate(-rotate)
         val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
+        val bounds = Rect()
+
+
+
         textPaint.style = Paint.Style.FILL
         textPaint.color = if (!color.isNullOrEmpty()) Color.parseColor(color) else Color.YELLOW
         textPaint.textSize =  if (!size.isNullOrEmpty()) size.toFloat() else 300f
+        textPaint.getTextBounds(text, 0, text.length, bounds)
 
-        //Calculate the positions
-        val xPos = (canvas.width / 2 - 2)//-2 is for regulating the x position offset
-
-        //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
-        val yPos = - (textPaint.descent() + textPaint.ascent())
-
-        canvas.drawText(text, xPos(canvas,rotate), yPos(canvas,rotate, textPaint), textPaint)
+        canvas.drawText(text, xPos(canvas,rotate, bounds,x.toFloat()), yPos(canvas,rotate, textPaint,y.toFloat()), textPaint)
       }
 
       val array = bitmap.compress(minWidth, minHeight, quality, rotate, type)
@@ -144,9 +147,14 @@ class CommonHandler(override val type: Int) : FormatHandler {
     }
   }
 
-  private fun xPos(canvas: Canvas, rotate: Float): Float {
+  val LENGTH = 2
+
+  private fun xPos(canvas: Canvas, rotate: Float,rect :Rect,x: Float): Float {
     return when (rotate) {
-      90.0f -> -canvas.height.toFloat()
+      90.0f -> {
+        val length = (canvas.height.toFloat() - rect.width().toFloat()) / 2
+        -(((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat())
+      }
       180.0f -> -canvas.width.toFloat()
       else -> { // Note the block
         0.0f;
@@ -154,12 +162,15 @@ class CommonHandler(override val type: Int) : FormatHandler {
     }
   }
 
-  private fun yPos(canvas: Canvas, rotate: Float, textPaint:TextPaint): Float {
+  private fun yPos(canvas: Canvas, rotate: Float, textPaint:TextPaint,y: Float): Float {
     return when (rotate) {
       180.0f -> -canvas.height.toFloat() - (textPaint.descent() + textPaint.ascent())
       270.0f -> -canvas.width.toFloat() - (textPaint.descent() + textPaint.ascent())
       else -> { // Note the block
-        - (textPaint.descent() + textPaint.ascent())
+//        canvas.width.toFloat()
+//        - (textPaint.descent() + textPaint.ascent())
+        val length = (canvas.width.toFloat() - (- (textPaint.descent() + textPaint.ascent()))) / 2
+        (((LENGTH -(LENGTH + y - 1)) * length) + (- (textPaint.descent() + textPaint.ascent())))
       }
     }
   }

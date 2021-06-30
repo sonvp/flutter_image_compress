@@ -26,7 +26,7 @@ class CompressFileHandler(private val call: MethodCall, result: MethodChannel.Re
       val keepExif = args[7] as Boolean
       val inSampleSize = args[8] as Int
       val numberOfRetries = args[9] as Int
-      val options  = args[10] as HashMap<String , String >
+      val options  = args[10] as HashMap<*, *>
       
       val formatHandler = FormatRegister.findFormat(format)
 
