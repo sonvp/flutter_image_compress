@@ -156,7 +156,10 @@ class CommonHandler(override val type: Int) : FormatHandler {
         val length = (canvas.height.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
         -(((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
       }
-      180.0f -> -canvas.width.toFloat()
+      180.0f -> {
+        val length = (canvas.width.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
+        -(((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
+      }
       270.0f -> {
         val length = (canvas.height.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
         canvas.height.toFloat() - (((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
@@ -174,7 +177,11 @@ class CommonHandler(override val type: Int) : FormatHandler {
         val length = (canvas.height.toFloat() - ((- (textPaint.descent() + textPaint.ascent())))) / 2
         (LENGTH + y - 1) * length - (textPaint.descent() + textPaint.ascent())
       }
-      180.0f -> -canvas.height.toFloat() - (textPaint.descent() + textPaint.ascent())
+      180.0f ->{
+//        -canvas.height.toFloat() - (textPaint.descent() + textPaint.ascent())
+        val length = (canvas.height.toFloat() - (-(textPaint.descent() + textPaint.ascent()))) / 2
+        (LENGTH + y - 1) * length - canvas.height.toFloat() - (textPaint.descent() + textPaint.ascent())
+      }
       270.0f -> {
 //        -canvas.width.toFloat() - (textPaint.descent() + textPaint.ascent())
         val length = (canvas.width.toFloat() - (-(textPaint.descent() + textPaint.ascent()))) / 2

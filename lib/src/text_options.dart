@@ -8,7 +8,7 @@ class TextOptions {
     this.text,
     this.color,
     this.size,
-    this.alignment = Alignment.topRight
+    this.alignment = Alignment.center
   });
 
   Map<String, dynamic> toJson() {
