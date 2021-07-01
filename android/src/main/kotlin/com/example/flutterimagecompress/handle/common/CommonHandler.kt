@@ -1,6 +1,7 @@
 package com.example.flutterimagecompress.handle.common
 
 import android.content.Context
+import android.content.res.AssetManager
 import android.graphics.*
 import android.text.TextPaint
 import com.example.flutterimagecompress.exif.ExifKeeper
@@ -9,6 +10,7 @@ import com.example.flutterimagecompress.ext.compress
 import com.example.flutterimagecompress.ext.rotate
 import com.example.flutterimagecompress.handle.FormatHandler
 import com.example.flutterimagecompress.logger.log
+import io.flutter.FlutterInjector
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 
@@ -107,6 +109,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
       val text: String? = textOptions["text"] as String?
       val color: String? = textOptions["color"] as String?
       val size: String? = textOptions["size"] as String?
+      val fontPath: String? = textOptions["fontPath"] as String?
       val alignment: HashMap<*, *>? = textOptions["alignment"] as HashMap<*, *>?
       val x: Double = alignment?.get("x") as Double? ?: (-1).toDouble()
       val y: Double = alignment?.get("y") as Double? ?: (-1).toDouble()
@@ -118,7 +121,14 @@ class CommonHandler(override val type: Int) : FormatHandler {
         val textPaint = TextPaint()
         val bounds = Rect()
 
-
+        //Add font
+        if (!fontPath.isNullOrEmpty()) {
+          val loader = FlutterInjector.instance().flutterLoader()
+          val fontKey = loader.getLookupKeyForAsset(fontPath)
+          val assetManager: AssetManager = context.assets
+          val myTypeface = Typeface.createFromAsset(assetManager, fontKey)
+          textPaint.typeface = myTypeface
+        }
 
         textPaint.style = Paint.Style.FILL
         textPaint.color = if (!color.isNullOrEmpty()) Color.parseColor(color) else Color.YELLOW

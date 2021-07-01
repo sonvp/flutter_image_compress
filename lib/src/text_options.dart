@@ -3,11 +3,13 @@ class TextOptions {
   final String color;
   final int size;
   final Alignment alignment;
+  final String fontPath;
 
   const TextOptions({
     this.text,
     this.color,
     this.size,
+    this.fontPath,
     this.alignment = Alignment.center
   });
 
@@ -17,6 +19,7 @@ class TextOptions {
       "color": color ?? "",
       "size": size.toString(),
       "alignment" : alignment.toJson(),
+      "fontPath" :fontPath ?? "",
     };
   }
 }

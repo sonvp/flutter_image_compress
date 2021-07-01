@@ -142,8 +142,11 @@ class _MyAppState extends State<MyApp> {
 
           // inSampleSize: 2,
           quality: 78,
-          textOptions: TextOptions(text: "5/6/2021",color: "#F26F23",size: 100,)
-      );
+          textOptions: TextOptions(
+              text: "5/6/2021",
+              color: "#F26F23",
+              size: 100,
+              fontPath: "assets/fonts/dark_mage.ttf"));
 
       if (result1 == null) return;
 
