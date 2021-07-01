@@ -115,7 +115,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
         val rotate = ExifKeeper(path).cameraPhotoOrientation
         val canvas = Canvas(bitmap)
         canvas.rotate(-rotate)
-        val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG or Paint.LINEAR_TEXT_FLAG)
+        val textPaint = TextPaint()
         val bounds = Rect()
 
 
@@ -148,22 +148,28 @@ class CommonHandler(override val type: Int) : FormatHandler {
   }
 
   val LENGTH = 2
+  val PADDING_RIGHT = 12;
 
   private fun xPos(canvas: Canvas, rotate: Float,rect :Rect,x: Float): Float {
     return when (rotate) {
       90.0f -> {
-        val length = (canvas.height.toFloat() - rect.width().toFloat()) / 2
-        -(((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat())
+        val length = (canvas.height.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
+        -(((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
       }
       180.0f -> -canvas.width.toFloat()
       else -> { // Note the block
-        0.0f;
+        val length = (canvas.width.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
+        canvas.width.toFloat() - (((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
       }
     }
   }
 
   private fun yPos(canvas: Canvas, rotate: Float, textPaint:TextPaint,y: Float): Float {
     return when (rotate) {
+      0.0f-> { // Note the block
+        val length = (canvas.height.toFloat() - ((- (textPaint.descent() + textPaint.ascent())))) / 2
+        (LENGTH + y - 1) * length - (textPaint.descent() + textPaint.ascent())
+      }
       180.0f -> -canvas.height.toFloat() - (textPaint.descent() + textPaint.ascent())
       270.0f -> -canvas.width.toFloat() - (textPaint.descent() + textPaint.ascent())
       else -> { // Note the block
