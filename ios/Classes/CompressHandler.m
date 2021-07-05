@@ -30,11 +30,9 @@
     UIImage *img=image;
     if(txtOptions){
         NSString *text = [txtOptions objectForKey:@"text"];
-        NSString *size = [txtOptions objectForKey:@"size"];
-        NSString *color = [txtOptions objectForKey:@"color"];
-        
+
         if(text != (NSString*) [NSNull null] || text.length != 0)
-        img = [CompressHandler drawText:text inImage:image color:color size:size];
+        img = [CompressHandler drawText:text inImage:image textOptions:txtOptions];
     }
     
     img = [img scaleWithMinWidth:minWidth minHeight:minHeight];
@@ -46,7 +44,12 @@
     return resultData;
 }
 
-+(UIImage*) drawText:(NSString*) text inImage:(UIImage*) image color:(NSString*) textColor  size:(NSString*) textSize{
+
++(UIImage*) drawText:(NSString*) text inImage:(UIImage*) image textOptions:(NSDictionary*) textOptions {
+    
+    NSString *textSize = [textOptions objectForKey:@"size"];
+    NSString *textColor = [textOptions objectForKey:@"color"];
+    NSString *fontPath = [textOptions objectForKey:@"fontPath"];
 
     UIGraphicsBeginImageContext(image.size);
 
@@ -58,12 +61,13 @@
     if(textColor != (NSString*) [NSNull null] || textColor.length != 0)
         color = [self colorWithHexString:textColor alpha:1];
     
-    int size =20;
+    int size = 20;
     if(textSize != (NSString*) [NSNull null] || textSize.length != 0)
         size=[textSize intValue];
-    
+        
     // Position the date in the bottom right
     NSDictionary* attributes = @{NSFontAttributeName :[UIFont boldSystemFontOfSize:size],
+                                    
                                      NSStrokeColorAttributeName : [UIColor blackColor],
                                      NSForegroundColorAttributeName :color,
                                      NSStrokeWidthAttributeName : @-2.0};
@@ -71,9 +75,20 @@
     const CGFloat dateWidth = [text sizeWithAttributes:attributes].width;
     const CGFloat dateHeight = [text sizeWithAttributes:attributes].height;
     const CGFloat datePadding = 25;
+    
+    NSDictionary *alignment = [textOptions objectForKey:@"alignmennt"];
+    float x = [[alignment objectForKey:@"x"] floatValue];
+    float y = [[alignment objectForKey:@"y"] floatValue];
+    
+    const int LENGTH = 2;
+    
+    double lengthX = (image.size.width - dateWidth) / 2;
+    float X = image.size.width - (((LENGTH - (LENGTH + x -1))* lengthX)) - dateWidth;
+    
+    double lengthY = (image.size.height - dateHeight) / 2;
+    float Y = image.size.height - (LENGTH +y -1) * lengthY - dateHeight;
 
-    [text drawAtPoint:CGPointMake(image.size.width - dateWidth - datePadding, image.size.height - dateHeight - datePadding)
-             withAttributes:attributes];
+    [text drawAtPoint:CGPointMake(X, Y) withAttributes:attributes];
 
 
     // Get the final image

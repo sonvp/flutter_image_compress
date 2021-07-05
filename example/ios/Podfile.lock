@@ -1,9 +1,11 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_image_compress (0.0.1):
+  - flutter_compress_image (0.0.1):
     - Flutter
     - Mantle
     - SDWebImageWebPCoder
+  - flutter_picker_image (0.0.1):
+    - Flutter
   - libwebp (1.2.0):
     - libwebp/demux (= 1.2.0)
     - libwebp/mux (= 1.2.0)
@@ -25,7 +27,8 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
+  - flutter_compress_image (from `.symlinks/plugins/flutter_compress_image/ios`)
+  - flutter_picker_image (from `.symlinks/plugins/flutter_picker_image/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
 
 SPEC REPOS:
@@ -38,14 +41,17 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_image_compress:
-    :path: ".symlinks/plugins/flutter_image_compress/ios"
+  flutter_compress_image:
+    :path: ".symlinks/plugins/flutter_compress_image/ios"
+  flutter_picker_image:
+    :path: ".symlinks/plugins/flutter_picker_image/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  flutter_image_compress: 082f8daaf6c1b0c9fe798251c750ef0ecd98d7ae
+  flutter_compress_image: 3f46a56480f27b1616269d923850b9590ffb7cd2
+  flutter_picker_image: ea2e4dd68e1cdaae6e9789497b6992829588bdb2
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   Mantle: 4c0ed6ce47c96eccc4dc3bb071deb3def0e2c3be
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
