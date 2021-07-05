@@ -6,6 +6,7 @@
 #import "UIImage+scale.h"
 #import "FlutterImageCompressPlugin.h"
 #import "SDImageWebPCoder.h"
+#import <CoreText/CoreText.h>
 
 @implementation CompressHandler {
 
@@ -49,7 +50,7 @@
     
     NSString *textSize = [textOptions objectForKey:@"size"];
     NSString *textColor = [textOptions objectForKey:@"color"];
-    NSString *fontPath = [textOptions objectForKey:@"fontPath"];
+    NSString *fontPathtest = [textOptions objectForKey:@"fontPath"];
 
     UIGraphicsBeginImageContext(image.size);
 
@@ -64,9 +65,25 @@
     int size = 20;
     if(textSize != (NSString*) [NSNull null] || textSize.length != 0)
         size=[textSize intValue];
-        
+    
+    NSString * key = [FlutterDartProject lookupKeyForAsset:fontPathtest];
+
+    NSString *fontPath1 = [[NSBundle mainBundle] pathForResource:key ofType:nil];
+        if (!fontPath1) {
+            NSLog(@"Failed to load font: no fontPath %@", key);
+            
+        }
+        NSData *inData = [NSData dataWithContentsOfFile:fontPath1];
+
+        CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)inData);
+        CGFontRef font = CGFontCreateWithDataProvider(provider);
+    
+
+    CTFontRef ctFont = CTFontCreateWithGraphicsFont(font, size, NULL, NULL);
+    UIFont *uiFont = CFBridgingRelease(ctFont);
+    
     // Position the date in the bottom right
-    NSDictionary* attributes = @{NSFontAttributeName :[UIFont boldSystemFontOfSize:size],
+    NSDictionary* attributes = @{NSFontAttributeName :uiFont,
                                     
                                      NSStrokeColorAttributeName : [UIColor blackColor],
                                      NSForegroundColorAttributeName :color,
