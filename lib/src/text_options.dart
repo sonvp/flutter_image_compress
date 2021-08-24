@@ -1,16 +1,20 @@
+import 'package:flutter/cupertino.dart';
+
 class TextOptions {
   final String text;
   final String color;
   final int size;
   final Alignment alignment;
   final String fontPath;
+  final int margin;
 
   const TextOptions({
-    this.text,
-    this.color,
-    this.size,
+    @required this.text,
+    this.color = '#F26F23',
+    this.size = 50,
     this.fontPath,
-    this.alignment = Alignment.center
+    this.alignment = Alignment.bottomRight,
+    this.margin = 0,
   });
 
   Map<String, dynamic> toJson() {
@@ -20,6 +24,7 @@ class TextOptions {
       "size": size.toString(),
       "alignment" : alignment.toJson(),
       "fontPath" :fontPath ?? "",
+      "margin": margin.toString(),
     };
   }
 }

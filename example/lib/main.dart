@@ -146,6 +146,7 @@ class _MyAppState extends State<MyApp> {
               text: "5/6/2021",
               color: "#F26F23",
               size: 100,
+              margin: 30,
               fontPath: "assets/fonts/dark_mage.ttf"));
 
       if (result1 == null) return;

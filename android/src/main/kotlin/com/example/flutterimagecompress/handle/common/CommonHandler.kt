@@ -7,6 +7,7 @@ import android.text.TextPaint
 import com.example.flutterimagecompress.exif.ExifKeeper
 import com.example.flutterimagecompress.ext.calcScale
 import com.example.flutterimagecompress.ext.compress
+import com.example.flutterimagecompress.ext.drawText
 import com.example.flutterimagecompress.ext.rotate
 import com.example.flutterimagecompress.handle.FormatHandler
 import com.example.flutterimagecompress.logger.log
@@ -101,42 +102,9 @@ class CommonHandler(override val type: Int) : FormatHandler {
         @Suppress("DEPRECATION")
         options.inDither = true
       }
-
-
-
       val bitmap = BitmapFactory.decodeFile(path, options)
 
-      val text: String? = textOptions["text"] as String?
-      val color: String? = textOptions["color"] as String?
-      val size: String? = textOptions["size"] as String?
-      val fontPath: String? = textOptions["fontPath"] as String?
-      val alignment: HashMap<*, *>? = textOptions["alignment"] as HashMap<*, *>?
-      val x: Double = alignment?.get("x") as Double? ?: (-1).toDouble()
-      val y: Double = alignment?.get("y") as Double? ?: (-1).toDouble()
-
-      if (!text.isNullOrEmpty()) {
-        val rotate = ExifKeeper(path).cameraPhotoOrientation
-        val canvas = Canvas(bitmap)
-        canvas.rotate(-rotate)
-        val textPaint = TextPaint()
-        val bounds = Rect()
-
-        //Add font
-        if (!fontPath.isNullOrEmpty()) {
-          val loader = FlutterInjector.instance().flutterLoader()
-          val fontKey = loader.getLookupKeyForAsset(fontPath)
-          val assetManager: AssetManager = context.assets
-          val myTypeface = Typeface.createFromAsset(assetManager, fontKey)
-          textPaint.typeface = myTypeface
-        }
-
-        textPaint.style = Paint.Style.FILL
-        textPaint.color = if (!color.isNullOrEmpty()) Color.parseColor(color) else Color.YELLOW
-        textPaint.textSize =  if (!size.isNullOrEmpty()) size.toFloat() else 300f
-        textPaint.getTextBounds(text, 0, text.length, bounds)
-
-        canvas.drawText(text, xPos(canvas,rotate, bounds,x.toFloat()), yPos(canvas,rotate, textPaint,y.toFloat()), textPaint)
-      }
+      bitmap.drawText(context,path,textOptions)
 
       val array = bitmap.compress(minWidth, minHeight, quality, rotate, type)
 
@@ -154,55 +122,6 @@ class CommonHandler(override val type: Int) : FormatHandler {
     }catch (e:OutOfMemoryError){//handling out of memory error and increase samples size
       System.gc();
       handleFile(context, path, outputStream, minWidth, minHeight, quality, rotate, keepExif, inSampleSize *2,numberOfRetries-1,textOptions);
-    }
-  }
-
-  val LENGTH = 2
-  val PADDING_RIGHT = 12;
-
-  private fun xPos(canvas: Canvas, rotate: Float,rect :Rect,x: Float): Float {
-    return when (rotate) {
-      90.0f -> {
-        val length = (canvas.height.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
-        -(((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
-      }
-      180.0f -> {
-        val length = (canvas.width.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
-        -(((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
-      }
-      270.0f -> {
-        val length = (canvas.height.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
-        canvas.height.toFloat() - (((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
-      }
-      else -> { // Note the block
-        val length = (canvas.width.toFloat() - (rect.width().toFloat()+PADDING_RIGHT)) / 2
-        canvas.width.toFloat() - (((LENGTH -(LENGTH + x - 1)) * length) + rect.width().toFloat()+PADDING_RIGHT)
-      }
-    }
-  }
-
-  private fun yPos(canvas: Canvas, rotate: Float, textPaint:TextPaint,y: Float): Float {
-    return when (rotate) {
-      0.0f-> { // Note the block
-        val length = (canvas.height.toFloat() - ((- (textPaint.descent() + textPaint.ascent())))) / 2
-        (LENGTH + y - 1) * length - (textPaint.descent() + textPaint.ascent())
-      }
-      180.0f ->{
-//        -canvas.height.toFloat() - (textPaint.descent() + textPaint.ascent())
-        val length = (canvas.height.toFloat() - (-(textPaint.descent() + textPaint.ascent()))) / 2
-        (LENGTH + y - 1) * length - canvas.height.toFloat() - (textPaint.descent() + textPaint.ascent())
-      }
-      270.0f -> {
-//        -canvas.width.toFloat() - (textPaint.descent() + textPaint.ascent())
-        val length = (canvas.width.toFloat() - (-(textPaint.descent() + textPaint.ascent()))) / 2
-        (LENGTH + y - 1) * length - canvas.width.toFloat() - (textPaint.descent() + textPaint.ascent())
-      }
-      else -> { // Note the block
-//        canvas.width.toFloat()
-//        - (textPaint.descent() + textPaint.ascent())
-        val length = (canvas.width.toFloat() - (- (textPaint.descent() + textPaint.ascent()))) / 2
-        ((((LENGTH + y - 1)) * length) + (- (textPaint.descent() + textPaint.ascent())))
-      }
     }
   }
 }
