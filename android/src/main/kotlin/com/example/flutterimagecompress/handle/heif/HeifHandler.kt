@@ -20,7 +20,7 @@ class HeifHandler : FormatHandler {
   override val typeName: String
     get() = "heif"
 
-  override fun handleByteArray(context: Context, byteArray: ByteArray, outputStream: OutputStream, minWidth: Int, minHeight: Int, quality: Int, rotate: Int, keepExif: Boolean, inSampleSize: Int) {
+  override fun handleByteArray(context: Context, byteArray: ByteArray, outputStream: OutputStream, minWidth: Int, minHeight: Int, quality: Int, rotate: Int, keepExif: Boolean, inSampleSize: Int,textOptions: HashMap<*, *>) {
     val tmpFile = TmpFileUtil.createTmpFile(context)
     compress(byteArray, minWidth, minHeight, quality, rotate, inSampleSize, tmpFile.absolutePath)
     outputStream.write(tmpFile.readBytes())

@@ -1,9 +1,7 @@
 package com.example.flutterimagecompress.handle.common
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.graphics.*
-import android.text.TextPaint
 import com.example.flutterimagecompress.exif.ExifKeeper
 import com.example.flutterimagecompress.ext.calcScale
 import com.example.flutterimagecompress.ext.compress
@@ -11,7 +9,6 @@ import com.example.flutterimagecompress.ext.drawText
 import com.example.flutterimagecompress.ext.rotate
 import com.example.flutterimagecompress.handle.FormatHandler
 import com.example.flutterimagecompress.logger.log
-import io.flutter.FlutterInjector
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 
@@ -36,8 +33,8 @@ class CommonHandler(override val type: Int) : FormatHandler {
       }
     }
 
-  override fun handleByteArray(context: Context, byteArray: ByteArray, outputStream: OutputStream, minWidth: Int, minHeight: Int, quality: Int, rotate: Int, keepExif: Boolean, inSampleSize: Int) {
-    val result = compress(byteArray, minWidth, minHeight, quality, rotate, inSampleSize)
+  override fun handleByteArray(context: Context, byteArray: ByteArray, outputStream: OutputStream, minWidth: Int, minHeight: Int, quality: Int, rotate: Int, keepExif: Boolean, inSampleSize: Int,textOptions: HashMap<*, *>) {
+    val result = compress(context,byteArray, minWidth, minHeight, quality, rotate, inSampleSize, textOptions)
 
     if (keepExif && bitmapFormat == Bitmap.CompressFormat.JPEG) {
       val byteArrayOutputStream = ByteArrayOutputStream()
@@ -53,17 +50,21 @@ class CommonHandler(override val type: Int) : FormatHandler {
 
   }
 
-  private fun compress(arr: ByteArray, minWidth: Int, minHeight: Int, quality: Int, rotate: Int = 0, inSampleSize: Int): ByteArray {
+  private fun compress(context: Context,arr: ByteArray, minWidth: Int, minHeight: Int, quality: Int, rotate: Int = 0, inSampleSize: Int, textOptions: HashMap<*, *>): ByteArray {
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = false
     options.inPreferredConfig = Bitmap.Config.RGB_565
     options.inSampleSize = inSampleSize
+    options.inMutable = true
     if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
       @Suppress("DEPRECATION")
       options.inDither = true
     }
 
     val bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.count(), options)
+
+    bitmap.drawText(context,null,textOptions)
+
     val outputStream = ByteArrayOutputStream()
 
     val w = bitmap.width.toFloat()
@@ -97,7 +98,7 @@ class CommonHandler(override val type: Int) : FormatHandler {
       options.inJustDecodeBounds = false
       options.inPreferredConfig = Bitmap.Config.RGB_565
       options.inSampleSize = inSampleSize
-      options.inMutable=true
+      options.inMutable = true
       if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.M) {
         @Suppress("DEPRECATION")
         options.inDither = true

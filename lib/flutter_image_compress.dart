@@ -60,7 +60,7 @@ class FlutterImageCompress {
     int inSampleSize = 1,
     bool autoCorrectionAngle = true,
     CompressFormat format = CompressFormat.jpeg,
-    bool keepExif = false,
+    bool keepExif = false,TextOptions textOptions = const TextOptions()
   }) async {
     if (image.isEmpty) {
       throw "The image is empty.";
@@ -81,6 +81,7 @@ class FlutterImageCompress {
       _convertTypeToInt(format),
       keepExif,
       inSampleSize,
+      textOptions.toJson()
     ]);
 
     return result;
@@ -139,7 +140,7 @@ class FlutterImageCompress {
     bool autoCorrectionAngle = true,
     CompressFormat format = CompressFormat.jpeg,
     bool keepExif = false,
-    int numberOfRetries = 5,
+    int numberOfRetries = 5, TextOptions textOptions = const TextOptions(),
   }) async {
     if (numberOfRetries <= 0) {
       throw "numberOfRetries can't be null or less than 0";
@@ -169,7 +170,7 @@ class FlutterImageCompress {
       _convertTypeToInt(format),
       keepExif,
       inSampleSize,
-      numberOfRetries
+      numberOfRetries, textOptions.toJson()
     ]);
 
     if (result == null) {
@@ -188,7 +189,7 @@ class FlutterImageCompress {
     int rotate = 0,
     bool autoCorrectionAngle = true,
     CompressFormat format = CompressFormat.jpeg,
-    bool keepExif = false,
+    bool keepExif = false, TextOptions textOptions = const TextOptions(),
   }) async {
     final support = await _validator.checkSupportPlatform(format);
     if (!support) {
@@ -216,6 +217,7 @@ class FlutterImageCompress {
       autoCorrectionAngle: autoCorrectionAngle,
       format: format,
       keepExif: keepExif,
+      textOptions: textOptions
     );
   }
 }

@@ -4,17 +4,17 @@ class TextOptions {
   final String text;
   final String color;
   final int size;
-  final Alignment alignment;
+  final TextAlignment alignment;
   final String fontPath;
-  final int margin;
+  final TextEdgeInsets margin;
 
   const TextOptions({
-    @required this.text,
+    this.text,
     this.color = '#F26F23',
     this.size = 50,
     this.fontPath,
-    this.alignment = Alignment.bottomRight,
-    this.margin = 0,
+    this.alignment = TextAlignment.bottomRight,
+    this.margin = const TextEdgeInsets.all(0.0)
   });
 
   Map<String, dynamic> toJson() {
@@ -24,13 +24,13 @@ class TextOptions {
       "size": size.toString(),
       "alignment" : alignment.toJson(),
       "fontPath" :fontPath ?? "",
-      "margin": margin.toString(),
+      "margin": margin.toJson(),
     };
   }
 }
-class Alignment {
+class TextAlignment {
 
-  const Alignment(this.x, this.y)
+  const TextAlignment(this.x, this.y)
       : assert(x != null),
         assert(y != null);
   final double x;
@@ -44,31 +44,54 @@ class Alignment {
   }
 
   /// The top left corner.
-  static const Alignment topLeft = Alignment(-1.0, -1.0);
+  static const TextAlignment topLeft = TextAlignment(-1.0, -1.0);
 
   /// The center point along the top edge.
-  static const Alignment topCenter = Alignment(0.0, -1.0);
+  static const TextAlignment topCenter = TextAlignment(0.0, -1.0);
 
   /// The top right corner.
-  static const Alignment topRight = Alignment(1.0, -1.0);
+  static const TextAlignment topRight = TextAlignment(1.0, -1.0);
 
   /// The center point along the left edge.
-  static const Alignment centerLeft = Alignment(-1.0, 0.0);
+  static const TextAlignment centerLeft = TextAlignment(-1.0, 0.0);
 
   /// The center point, both horizontally and vertically.
-  static const Alignment center = Alignment(0.0, 0.0);
+  static const TextAlignment center = TextAlignment(0.0, 0.0);
 
   /// The center point along the right edge.
-  static const Alignment centerRight = Alignment(1.0, 0.0);
+  static const TextAlignment centerRight = TextAlignment(1.0, 0.0);
 
   /// The bottom left corner.
-  static const Alignment bottomLeft = Alignment(-1.0, 1.0);
+  static const TextAlignment bottomLeft = TextAlignment(-1.0, 1.0);
 
   /// The center point along the bottom edge.
-  static const Alignment bottomCenter = Alignment(0.0, 1.0);
+  static const TextAlignment bottomCenter = TextAlignment(0.0, 1.0);
 
   /// The bottom right corner.
-  static const Alignment bottomRight = Alignment(1.0, 1.0);
+  static const TextAlignment bottomRight = TextAlignment(1.0, 1.0);
+}
+
+class TextEdgeInsets {
+
+  final double vertical;
+  final double horizontal;
+
+  const TextEdgeInsets.all(double value)
+      : vertical = value,
+        horizontal = value;
+
+  const TextEdgeInsets.symmetric({
+    double vertical = 0.0,
+    double horizontal = 0.0,
+  })  : vertical = vertical,
+        horizontal = horizontal;
+
+  Map<String, dynamic> toJson() {
+    return {
+      "vertical": vertical ?? 0,
+      "horizontal": horizontal ?? 0,
+    };
+  }
 }
 
 

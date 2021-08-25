@@ -73,7 +73,7 @@ class CompressFileHandler(private val call: MethodCall, result: MethodChannel.Re
       val targetPath = args[4] as String
       val rotate = args[5] as Int
       val autoCorrectionAngle = args[6] as Boolean
-      val options  = args[9] as HashMap<String , String >
+      val options  = args[11] as HashMap<String , String >
 
       val exifRotate =
               if (autoCorrectionAngle) {

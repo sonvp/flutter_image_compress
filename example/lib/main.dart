@@ -146,7 +146,7 @@ class _MyAppState extends State<MyApp> {
               text: "5/6/2021",
               color: "#F26F23",
               size: 100,
-              margin: 30,
+              margin: const TextEdgeInsets.symmetric(vertical: 90,horizontal: 80),
               fontPath: "assets/fonts/dark_mage.ttf"));
 
       if (result1 == null) return;
@@ -234,7 +234,12 @@ class _MyAppState extends State<MyApp> {
       minHeight: 1500,
       quality: 94,
       rotate: 180,
-      textOptions: TextOptions(text: "5/6/2021",color: "#F26F23",size: 500,)
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 100,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
     print(file.lengthSync());
     print(result?.length);
@@ -250,6 +255,12 @@ class _MyAppState extends State<MyApp> {
       minWidth: 1024,
       minHeight: 1024,
       rotate: 90,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 100,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
 
     print(file.lengthSync());
@@ -266,6 +277,12 @@ class _MyAppState extends State<MyApp> {
       minWidth: 1080,
       quality: 96,
       rotate: 135,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 100,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
 
     if (list == null) return;
@@ -292,6 +309,12 @@ class _MyAppState extends State<MyApp> {
       quality: 96,
       rotate: 270,
       format: CompressFormat.webp,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 100,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
     print(list.length);
     print(result.length);
@@ -309,6 +332,12 @@ class _MyAppState extends State<MyApp> {
       minWidth: 1000,
       quality: 95,
       // autoCorrectionAngle: false,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 100,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
 
     if (result == null) return;
@@ -323,6 +352,12 @@ class _MyAppState extends State<MyApp> {
       R.IMG_HEADER_PNG,
       minWidth: 300,
       minHeight: 500,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 100,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
 
     if (result == null) return;
@@ -340,6 +375,12 @@ class _MyAppState extends State<MyApp> {
       minHeight: 100,
       minWidth: 100,
       format: CompressFormat.png,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 50,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
 
     final u8list = Uint8List.fromList(result);
@@ -359,6 +400,12 @@ class _MyAppState extends State<MyApp> {
       minHeight: 600,
       // autoCorrectionAngle: false,
       keepExif: true,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 100,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
 
     if (result == null) return;
@@ -384,6 +431,12 @@ class _MyAppState extends State<MyApp> {
       target,
       format: CompressFormat.heic,
       quality: 90,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 100,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
 
     if (result == null) return;
@@ -412,6 +465,12 @@ class _MyAppState extends State<MyApp> {
       minHeight: 800,
       minWidth: 800,
       quality: quality,
+        textOptions: TextOptions(
+            text: "5/6/2021",
+            color: "#F26F23",
+            size: 50,
+            margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
+            fontPath: "assets/fonts/dark_mage.ttf")
     );
 
     if (result == null) return;

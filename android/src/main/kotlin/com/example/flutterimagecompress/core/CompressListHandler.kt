@@ -24,6 +24,7 @@ class CompressListHandler(private val call: MethodCall, result: MethodChannel.Re
       val format = args[6] as Int
       val keepExif = args[7] as Boolean
       val inSampleSize = args[8] as Int
+      val options  = args[9] as HashMap<String , String >
 
       val exifRotate = if (autoCorrectionAngle) Exif.getRotationDegrees(arr) else 0
 
@@ -45,7 +46,7 @@ class CompressListHandler(private val call: MethodCall, result: MethodChannel.Re
 
       val outputStream = ByteArrayOutputStream()
       try {
-        formatHandler.handleByteArray(context, arr, outputStream, minWidth, minHeight, quality, targetRotate, keepExif, inSampleSize)
+        formatHandler.handleByteArray(context, arr, outputStream, minWidth, minHeight, quality, targetRotate, keepExif, inSampleSize, options)
         reply(outputStream.toByteArray())
       } catch (e: CompressError) {
         log(e.message)

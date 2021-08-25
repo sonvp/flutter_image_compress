@@ -75,19 +75,22 @@ fun convertFormatIndexToFormat(type: Int): Bitmap.CompressFormat {
 }
 
 
-fun Bitmap.drawText(context: Context,path: String, textOptions: HashMap<*, *>) {
+fun Bitmap.drawText(context: Context, path: String?, textOptions: HashMap<*, *>) {
 
   val text: String? = textOptions["text"] as String?
   val color: String? = textOptions["color"] as String?
   val size: String? = textOptions["size"] as String?
-  val margin: String? = textOptions["margin"] as String?
   val fontPath: String? = textOptions["fontPath"] as String?
   val alignment: HashMap<*, *>? = textOptions["alignment"] as HashMap<*, *>?
   val x: Double = alignment?.get("x") as Double? ?: (-1).toDouble()
   val y: Double = alignment?.get("y") as Double? ?: (-1).toDouble()
 
+  val margin: HashMap<*, *>? = textOptions["margin"] as HashMap<*, *>?
+  val vertical: Double = margin?.get("vertical") as Double? ?: (-1).toDouble()
+  val horizontal: Double = margin?.get("horizontal") as Double? ?: (-1).toDouble()
+
   if (!text.isNullOrEmpty()) {
-    val rotate = ExifKeeper(path).cameraPhotoOrientation
+    val rotate = if(path.isNullOrEmpty()) 0.0f else ExifKeeper(path).cameraPhotoOrientation
     val canvas = Canvas(this)
     canvas.rotate(-rotate)
     val textPaint = TextPaint()
@@ -107,7 +110,7 @@ fun Bitmap.drawText(context: Context,path: String, textOptions: HashMap<*, *>) {
     textPaint.textSize = if (!size.isNullOrEmpty()) size.toFloat() else 100f
     textPaint.getTextBounds(text, 0, text.length, bounds)
 
-    canvas.drawText(text, xPos(canvas, rotate, bounds, x.toFloat(), margin!!.toFloat()), yPos(canvas, rotate, textPaint, y.toFloat(), margin.toFloat()), textPaint)
+    canvas.drawText(text, xPos(canvas, rotate, bounds, x.toFloat(), horizontal.toFloat()), yPos(canvas, rotate, textPaint, y.toFloat(), vertical.toFloat()), textPaint)
   }
 }
 
