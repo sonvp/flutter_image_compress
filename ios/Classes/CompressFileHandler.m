@@ -65,7 +65,7 @@
 
     int formatType = [args[7] intValue];
     BOOL keepExif = [args[8] boolValue];
-
+    NSDictionary *textoOptions = args[11];
     
     UIImage *img;
     
@@ -85,7 +85,7 @@
         img = [UIImage imageWithData:nsdata];
     }
     
-    NSData *data = [CompressHandler compressDataWithUIImage:img minWidth:minWidth minHeight:minHeight quality:quality rotate:rotate format:formatType];
+    NSData *data = [CompressHandler compressDataWithUIImage:img minWidth:minWidth minHeight:minHeight quality:quality rotate:rotate format:formatType textOptions:textoOptions];
 
     if (keepExif) {
         SYMetadata *metadata = [SYMetadata metadataWithFileURL:[NSURL fileURLWithPath:path]];
