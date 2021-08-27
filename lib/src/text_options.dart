@@ -13,7 +13,7 @@ class TextOptions {
     this.color = '#F26F23',
     this.size = 50,
     this.fontPath,
-    this.alignment = TextAlignment.bottomRight,
+    this.alignment = TextAlignment.centerRight,
     this.margin = const TextEdgeInsets.all(0.0)
   });
 
