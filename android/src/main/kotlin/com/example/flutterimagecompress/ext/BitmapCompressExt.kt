@@ -81,9 +81,14 @@ fun Bitmap.drawText(context: Context, path: String?, textOptions: HashMap<*, *>)
   val color: String? = textOptions["color"] as String?
   val size: String? = textOptions["size"] as String?
   val fontPath: String? = textOptions["fontPath"] as String?
+  val hasBold: Boolean? = textOptions["hasBold"] as Boolean?
+  val hasItalic: Boolean? = textOptions["hasItalic"] as Boolean?
+  val hasUnderline : Boolean? = textOptions["hasUnderline"] as Boolean?
+
   val alignment: HashMap<*, *>? = textOptions["alignment"] as HashMap<*, *>?
   val x: Double = alignment?.get("x") as Double? ?: (-1).toDouble()
   val y: Double = alignment?.get("y") as Double? ?: (-1).toDouble()
+
 
   val margin: HashMap<*, *>? = textOptions["margin"] as HashMap<*, *>?
   val vertical: Double = margin?.get("vertical") as Double? ?: (-1).toDouble()
@@ -103,8 +108,18 @@ fun Bitmap.drawText(context: Context, path: String?, textOptions: HashMap<*, *>)
       val assetManager: AssetManager = context.assets
       val myTypeface = Typeface.createFromAsset(assetManager, fontKey)
       textPaint.typeface = myTypeface
+    }else{
+      if (hasItalic!!) {
+        textPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC);
+      }
+      if (hasBold!!) {
+        textPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+      }
     }
 
+    if (hasUnderline!!) {
+      textPaint.flags = Paint.UNDERLINE_TEXT_FLAG
+    }
     textPaint.style = Paint.Style.FILL
     textPaint.color = if (!color.isNullOrEmpty()) Color.parseColor(color) else Color.BLACK
     textPaint.textSize = if (!size.isNullOrEmpty()) size.toFloat() else 100f
