@@ -146,8 +146,11 @@ class _MyAppState extends State<MyApp> {
               text: "5/6/2021",
               color: "#F26F23",
               size: 100,
+              hasBold: true,
+              hasItalic: true,
+              hasUnderline: true,
               margin: const TextEdgeInsets.symmetric(vertical: 40,horizontal: 80),
-              fontPath: "assets/fonts/dark_mage.ttf"));
+              fontPath: "assets/fonts/Roboto-BoldItalic.ttf"));
 
       if (result1 == null) return;
 

@@ -77,3 +77,4 @@ flutter:
     - family: Mulish
       fonts:
         - asset: assets/fonts/dark_mage.ttf
+        - asset: assets/fonts/Roboto-BoldItalic.ttf

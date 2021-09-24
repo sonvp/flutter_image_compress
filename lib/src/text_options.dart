@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 class TextOptions {
   final String text;
@@ -7,6 +6,9 @@ class TextOptions {
   final TextAlignment alignment;
   final String fontPath;
   final TextEdgeInsets margin;
+  final bool hasBold;
+  final bool hasItalic;
+  final bool hasUnderline;
 
   const TextOptions({
     this.text,
@@ -14,7 +16,10 @@ class TextOptions {
     this.size = 50,
     this.fontPath,
     this.alignment = TextAlignment.centerRight,
-    this.margin = const TextEdgeInsets.all(0.0)
+    this.margin = const TextEdgeInsets.all(0.0),
+    this.hasBold = false,
+    this.hasItalic = false,
+    this.hasUnderline = false,
   });
 
   Map<String, dynamic> toJson() {
@@ -25,6 +30,9 @@ class TextOptions {
       "alignment" : alignment.toJson(),
       "fontPath" :fontPath ?? "",
       "margin": margin.toJson(),
+      "hasBold": hasBold ?? false,
+      "hasItalic": hasItalic ?? false,
+      "hasUnderline": hasUnderline ?? false,
     };
   }
 }
