@@ -13,6 +13,13 @@
     NSString *textSize = [textOptions objectForKey:@"size"];
     NSString *textColor = [textOptions objectForKey:@"color"];
     NSString *fontPathtest = [textOptions objectForKey:@"fontPath"];
+    bool hasBold = [[textOptions objectForKey:@"hasBold"] boolValue];
+    bool hasItalic = [[textOptions objectForKey:@"hasItalic"] boolValue];
+    bool hasUnderline = [[textOptions objectForKey:@"hasUnderline"] boolValue];
+
+    NSLog(@"hasBold = %d",hasBold);
+    NSLog(@"hasItalic = %d",hasItalic);
+    NSLog(@"hasUnderline = %d",hasUnderline);
 
     UIGraphicsBeginImageContext(image.size);
 
@@ -39,10 +46,31 @@
     CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)inData);
     CGFontRef font = CGFontCreateWithDataProvider(provider);
     CTFontRef ctFont = CTFontCreateWithGraphicsFont(font, size, NULL, NULL);
+    NSLog(@"ctFont %@", ctFont);
+
+    CTFontSymbolicTraits traits = CTFontGetSymbolicTraits(ctFont);
+    BOOL isItalic = ((traits & kCTFontItalicTrait) == kCTFontItalicTrait);
+    BOOL isBold = ((traits & kCTFontBoldTrait) == kCTFontBoldTrait);
+    NSLog(@"Italic: %i Bold: %i", isItalic, isBold);
+
+    if(!fontPath1){
+        if(hasItalic){
+            ctFont = CTFontCreateCopyWithSymbolicTraits(ctFont, size, NULL, kCTFontItalicTrait, kCTFontItalicTrait);
+        }
+
+        if(hasBold){
+            ctFont = CTFontCreateCopyWithSymbolicTraits(ctFont, size, NULL, kCTFontBoldTrait, kCTFontBoldTrait);
+        }
+    }
+
+    NSLog(@"ctFont1 %@", ctFont);
     UIFont *uiFont = CFBridgingRelease(ctFont);
-    
+    NSLog(@"uiFont %@", uiFont);
+
+
     // Position the date in the bottom right
     NSDictionary* attributes = @{ NSFontAttributeName :uiFont,
+                                  NSUnderlineStyleAttributeName: hasUnderline?@(NSUnderlineStyleSingle):@(NSUnderlineStyleNone),
                                   NSStrokeColorAttributeName : [UIColor blackColor],
                                   NSForegroundColorAttributeName :color,
                                   NSStrokeWidthAttributeName : @0.0};
