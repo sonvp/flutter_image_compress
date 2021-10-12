@@ -1,7 +1,11 @@
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'color_x.dart';
+
 class TextOptions {
   final String text;
-  final String color;
+  final Color color;
   final int size;
   final TextAlignment alignment;
   final String fontPath;
@@ -12,7 +16,7 @@ class TextOptions {
 
   const TextOptions({
     this.text,
-    this.color = '#F26F23',
+    this.color = Colors.red,
     this.size = 50,
     this.fontPath,
     this.alignment = TextAlignment.centerRight,
@@ -25,7 +29,7 @@ class TextOptions {
   Map<String, dynamic> toJson() {
     return {
       "text": text ?? "",
-      "color": color ?? "",
+      "color": color.toHexTriplet() ?? "",
       "size": size.toString(),
       "alignment" : alignment.toJson(),
       "fontPath" :fontPath ?? "",

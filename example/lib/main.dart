@@ -144,7 +144,7 @@ class _MyAppState extends State<MyApp> {
           quality: 78,
           textOptions: TextOptions(
               text: "5/6/2021",
-              color: "#F26F23",
+              color: Colors.blueAccent,
               size: 100,
               hasBold: true,
               hasItalic: true,
@@ -239,7 +239,7 @@ class _MyAppState extends State<MyApp> {
       rotate: 180,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 100,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -260,7 +260,7 @@ class _MyAppState extends State<MyApp> {
       rotate: 90,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 100,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -282,7 +282,7 @@ class _MyAppState extends State<MyApp> {
       rotate: 135,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 100,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -314,7 +314,7 @@ class _MyAppState extends State<MyApp> {
       format: CompressFormat.webp,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 100,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -337,7 +337,7 @@ class _MyAppState extends State<MyApp> {
       // autoCorrectionAngle: false,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 100,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -357,7 +357,7 @@ class _MyAppState extends State<MyApp> {
       minHeight: 500,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 100,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -380,7 +380,7 @@ class _MyAppState extends State<MyApp> {
       format: CompressFormat.png,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 50,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -405,7 +405,7 @@ class _MyAppState extends State<MyApp> {
       keepExif: true,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 100,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -436,7 +436,7 @@ class _MyAppState extends State<MyApp> {
       quality: 90,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 100,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
@@ -470,7 +470,7 @@ class _MyAppState extends State<MyApp> {
       quality: quality,
         textOptions: TextOptions(
             text: "5/6/2021",
-            color: "#F26F23",
+            color: Colors.orange,
             size: 50,
             margin: const TextEdgeInsets.symmetric(vertical: 10,horizontal: 20),
             fontPath: "assets/fonts/dark_mage.ttf")
